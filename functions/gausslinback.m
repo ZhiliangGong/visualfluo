@@ -1,0 +1,7 @@
+function u = gausslinback( a, v )
+%2 Gaussians with linear background
+%   Zhiliang Gong, March 3, 2015
+
+u = a(1).*exp(-((v-a(2))./a(3)).^2/2) + a(4)*v + a(5);
+
+end
