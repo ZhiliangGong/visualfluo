@@ -332,9 +332,9 @@ initializeVisualFluo;
             [fileName,path] = uiputfile(string1,string2);
             fspecFile = fullfile(path,fileName);
             
-            qz = repmat(y.q(qzList.Value),2,1);
-            qz = reshape(qz,1,numel(qz));
-            line1 = sprintf('%s %s','E(keV)\\Qz',num2str(qz));
+            angle = repmat(y.q(qzList.Value),2,1) * y.wavelength / 4 / pi;
+            angle = reshape(angle,1,numel(angle));
+            line1 = sprintf('%s %s','E(keV)\\Angle',num2str(angle));
             data = zeros(length(y.e),length(qzList.Value)*2);
             data(:,1:2:end) = y.intensity(:,qzList.Value);
             data(:,2:2:end) = y.intensityError(:,qzList.Value);
