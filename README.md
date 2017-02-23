@@ -1,4 +1,4 @@
-# visualfluo
+# VisualFluo
 x-ray fluorescence visualization MATLAB GUI
 Currently works for the setup at APS Sector 15-IDC with the Vortex detector.
 
