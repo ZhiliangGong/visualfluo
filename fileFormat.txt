@@ -1,5 +1,0 @@
-% specify the format of your spec file
-spec [12]\d\d\d[01][012][0123]\d
-
-% specify the format of your scan files
-scan [12]\d\d\d[01][012][0123]\d_(\d+)_mca
