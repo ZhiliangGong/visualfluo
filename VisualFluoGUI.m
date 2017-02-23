@@ -334,8 +334,11 @@ classdef VisualFluoGUI < handle
                 case 'element'
                     turnElementFeatures('on');
                     switch trigger
-                        case {'element', 'qz', 'line-shape', 'plot1-type', 'background', 'basic-info', 'calibration'}
+                        case {'element', 'line-shape', 'plot1-type', 'background', 'basic-info', 'calibration'}
                             upperPlot();
+                        case 'qz'
+                            upperPlot();
+                            plotParameter();
                         case 'scan'
                             displayTableInfo();
                             displayScanInfo();
@@ -731,10 +734,12 @@ classdef VisualFluoGUI < handle
                 case 'whole'
                     switch trigger
                         case 'load'
-                            [specFile, specFilePath] = uigetfile('Select the spec file');
-                            if loadDataAt(specFile, specFilePath)
-                                getLineSpecAndLegendFirstTime();
-                                this.view(state, trigger);
+                            [specFile, specFilePath] = uigetfile('*', 'Select the spec file');
+                            if specFile ~= 0
+                               if loadDataAt(specFile, specFilePath)
+                                   getLineSpecAndLegendFirstTime();
+                                   this.view(state, trigger);
+                               end
                             end
                         case 'refresh'
                             refreshScans();
