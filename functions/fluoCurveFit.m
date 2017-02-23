@@ -8,7 +8,7 @@ function [a,fitx,fity] = fluoCurveFit(x,y,type,peak,width,N) %fit fluorescence i
         case {'lorentz','lorentzian'}
             [a,fitx,fity] = lorentzFit(a0,lb,ub);
         otherwise
-            error('Fitting curve type for fluorescence spectra not found.');    
+            error('Fitting line shape for fluorescence spectra not found.');    
     end
     
     a = reshape(a,length(a),1);

@@ -95,7 +95,7 @@ integrate = uicontrol(rightPanel,'Style','radiobutton','Enable','off','String','
 
 uicontrol(rightPanel,'Style','text','String','Scaling x:','HorizontalAlignment','left','Units','normalized',...
     'Position',[0.03 0.9 0.35 0.022]);
-scaleFactor = uicontrol(rightPanel,'Style','edit','String','1e6','HorizontalAlignment','left','Units','normalized',...
+scaleFactor = uicontrol(rightPanel,'Style','edit','String','100000','HorizontalAlignment','left','Units','normalized',...
     'Position',[0.24 0.901 0.5 0.022],'CallBack',@scaleFactor_Callback);
 
 uicontrol(rightPanel,'Style','text','String','Energy (keV) = ','HorizontalAlignment','left','Units','normalized',...
@@ -327,14 +327,15 @@ initializeVisualFluo;
         for i = 1:length(scanList.Value)
             y = x{scanList.Value(i)};
             scanString = num2str(y.scanNumber);
-            string1 = strcat('Scan #',scanString,'.xfluo');
+            string1 = strcat('scan-',scanString,'.xfluo');
             string2 = sprintf('%s %s %s','Save scan #',scanString,'as');
             [fileName,path] = uiputfile(string1,string2);
             fspecFile = fullfile(path,fileName);
             
-            angle = repmat(y.q(qzList.Value),2,1) * y.wavelength / 4 / pi;
+%             angle = repmat(y.q(qzList.Value),2,1) * y.wavelength / 4 / pi;
+            angle = repmat(y.angle(qzList.Value),2,1);
             angle = reshape(angle,1,numel(angle));
-            line1 = sprintf('%s %s','E(keV)\\Angle',num2str(angle));
+            line1 = sprintf('%s %s','E(keV)\\Angle',num2str(angle, 10));
             data = zeros(length(y.e),length(qzList.Value)*2);
             data(:,1:2:end) = y.intensity(:,qzList.Value);
             data(:,2:2:end) = y.intensityError(:,qzList.Value);
@@ -853,14 +854,20 @@ initializeVisualFluo;
 
     function plotSignal(ax) %plot the integrated signal for a given element
         
+%         for i = 1:length(scanList.Value)
+%             errorbar(ax,x{scanList.Value(i)}.q(qzList.Value),x{scanList.Value(i)}.signal(qzList.Value),...
+%                 x{scanList.Value(i)}.signalError(qzList.Value),x{scanList.Value(i)}.signalError(qzList.Value),...
+%                 info.spec2{i},'markersize',8,'linewidth',2);
+%             hold(ax,'on');
+%         end
         for i = 1:length(scanList.Value)
-            errorbar(ax,x{scanList.Value(i)}.q(qzList.Value),x{scanList.Value(i)}.signal(qzList.Value),...
+            errorbar(ax,x{scanList.Value(i)}.angle(qzList.Value),x{scanList.Value(i)}.signal(qzList.Value),...
                 x{scanList.Value(i)}.signalError(qzList.Value),x{scanList.Value(i)}.signalError(qzList.Value),...
                 info.spec2{i},'markersize',8,'linewidth',2);
             hold(ax,'on');
         end
         hold(ax,'off');
-        xlabel(ax,'Qz');
+        xlabel(ax,'Angle (radian)');
         ylabel(ax,'Fluorescence Intensity (a.u.)');
         switch lower(curveType.String{curveType.Value})
             case {'gauss','gaussian'}

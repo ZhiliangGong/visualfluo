@@ -167,7 +167,7 @@ classdef VisualFluoData < handle
             end
             x.fitType = type;
             
-            element = loadElement(element);
+%             element = loadElement(element);
             x.element = element;
             
             %find the energy range working on
@@ -296,6 +296,9 @@ classdef VisualFluoData < handle
                     case '#e'
                         C = textscan(line,'%s %s');
                         x.E = str2double(C{2});
+                        if x.E == 0
+                            x.E = 10;
+                        end
                     case '#@'
                         if strcmpi(line(1:5),'#@cal')
                             C = textscan(line,'%s %f %f %f');
@@ -378,11 +381,13 @@ classdef VisualFluoData < handle
         
         function calculateIntensity(x) %calculate spectral intensity
             
-            x.intensity = x.counts.*repmat(x.A./x.influx.*x.T./x.countTime,x.rowNumber,1);
-            x.intensityError = x.countsError.*repmat(x.A./x.influx.*x.T./x.countTime,x.rowNumber,1);
+            x.intensity = x.counts .* repmat(x.A ./ x.influx .* x.T ./ x.countTime .* (2.^(x.absorber/2)), x.rowNumber, 1);
+            x.intensityError = x.countsError.*repmat(x.A ./ x.influx .* x.T ./ x.countTime .*  (2.^(x.absorber/2)), x.rowNumber, 1);
+%             x.intensity = x.counts .* repmat(x.A ./ x.influx .* x.T ./ x.countTime, x.rowNumber, 1);
+%             x.intensityError = x.countsError.*repmat(x.A ./ x.influx .* x.T ./ x.countTime, x.rowNumber, 1);
             
         end
-                
+
     end
     
 end

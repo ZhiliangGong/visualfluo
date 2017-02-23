@@ -1,0 +1,73 @@
+23-Feb-2017 15:09:41
+--------------------------------------------------------------------
+#Time stamp: 23-Feb-2017 15:09:22
+#Fitted parameters: (Angle-Offset, Scale-Factor)
+
+#Fitting report
+#Best chi^2: 259.112068
+                    TRR         Brute Force   Adjusted Std
+Angle-Offset  -0.000010  -0.000010   0.000002
+Scale-Factor 1889.180631 1889.180701   3.153194
+--------------------------------------------------------------------
+#Time stamp: 23-Feb-2017 15:09:12
+#Fitted parameters: (Angle-Offset, Scale-Factor)
+
+#Fitting report
+#Best chi^2: 259.112068
+                    TRR         Brute Force   Adjusted Std
+Angle-Offset  -0.000010  -0.000011   0.000005
+Scale-Factor 1889.180631 1889.180700   3.153195
+--------------------------------------------------------------------
+#Time stamp: 23-Feb-2017 15:08:39
+#Fitted parameters: (Angle-Offset, Scale-Factor)
+
+#Fitting report
+#Best chi^2: 259.112068
+                    TRR         Brute Force   Adjusted Std
+Angle-Offset  -0.000010  -0.000005   0.000003
+Scale-Factor 1889.181098 1889.180700   3.153195
+--------------------------------------------------------------------
+#Time stamp: 23-Feb-2017 15:08:27
+#Fitted parameters: (Angle-Offset, Scale-Factor)
+
+#Fitting report
+#Best chi^2: 259.112068
+                    TRR         Brute Force   Adjusted Std
+Angle-Offset  -0.000010  -0.000005   0.000003
+Scale-Factor 1889.181089 1889.180704   3.153096
+--------------------------------------------------------------------
+#Time stamp: 23-Feb-2017 15:08:16
+#Fitted parameters: (Angle-Offset, Scale-Factor)
+
+#Fitting report
+#Best chi^2: 259.112068
+                    TRR         Brute Force   Adjusted Std
+Angle-Offset  -0.000010  -0.000005   0.000003
+Scale-Factor 1889.181106 1889.183685   3.154816
+--------------------------------------------------------------------
+#Time stamp: 23-Feb-2017 15:08:03
+#Fitted parameters: (Angle-Offset, Scale-Factor)
+
+#Fitting report
+#Best chi^2: 259.112068
+                    TRR         Brute Force   Adjusted Std
+Angle-Offset  -0.000010  -0.000005   0.000003
+Scale-Factor 1889.180993 1894.736828   6.724418
+--------------------------------------------------------------------
+#Time stamp: 23-Feb-2017 15:07:47
+#Fitted parameters: (Angle-Offset, Scale-Factor)
+
+#Fitting report
+#Best chi^2: 259.112068
+                    TRR         Brute Force   Adjusted Std
+Angle-Offset  -0.000010  -0.000005   0.000003
+Scale-Factor 1889.180993 1894.736828   6.724418
+--------------------------------------------------------------------
+#Time stamp: 23-Feb-2017 15:07:27
+#Fitted parameters: (Angle-Offset, Scale-Factor)
+
+#Fitting report
+#Best chi^2: 259.112068
+                    TRR         Brute Force   Adjusted Std
+Angle-Offset  -0.000010  -0.000005   0.000003
+Scale-Factor 1889.181099 1894.834827  33.440389

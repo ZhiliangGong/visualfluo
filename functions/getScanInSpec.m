@@ -6,7 +6,7 @@ function body = getScanInSpec(fname,scanNumber)
     
     n1 = 0;
     for i = 1:length(text)
-        if length(text{i}) >= n && strcmpi(text{i}(1:n),feature)
+        if length(text{i}) >= n && strcmpi(text{i}(1:n), feature)
             n1 = i;
         end
         if n1 > 0 && isempty(text{i})

@@ -1,6 +1,0 @@
-#Ca
-energies 3 3.69 4.01 4.5
-peakHalfWidth 0.05 0.05
-#Zn
-energies 8.4 8.64 8.95
-peakHalfWidth

@@ -1,0 +1,7 @@
+{
+  "beamLines": ["APS 15ID-C Vortex", "Other"],
+  "plot1Choices": ["Counts","Counts with error","Intensity","Intensity with error"],
+  "plot2Choices": ["Influx","Count time","Live ratio","Absorber","Footprint","Slit height","Slit width","Beam position"],
+  "colors": "kbrgcmy",
+  "symbols": "o^vsd><ph+*x."
+}
