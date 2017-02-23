@@ -6,3 +6,9 @@ Currently works for the setup at APS Sector 15-IDC with the Vortex detector.
 To start, add the files in your MATLAB search path.
 Type command "VisualFluo" in the command line.
 Use "x = VisualFluo" to gain and store access to the class.
+
+# Contact
+Zhiliang Gong (zhiliang.gong@gmail.com)
+
+# License
+MIT
