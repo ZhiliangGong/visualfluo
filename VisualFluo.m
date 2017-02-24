@@ -23,7 +23,7 @@ classdef VisualFluo < handle
                 
                 configFile = which('visualfluo.config.json');
                 this.config = loadjson(configFile);
-                this.ElementProfiles = loadjson(fullfile(getParentDir(which('XeRayGUI.m')), 'support-files/element-profiles.json'));
+                this.ElementProfiles = loadjson(fullfile(getParentDir(which('VisualFluo.m')), 'support-files/element-profiles.json'));
                 
                 createView();
                 createController();
@@ -55,10 +55,12 @@ classdef VisualFluo < handle
                        height = screenSize(4) * 0.85;
                    end
                    
-                   this.guiFigure = figure('Visible','on','Name','VisualFluo','NumberTitle','off','Units','pixels',...
+                   this.guiFigure = figure('Visible','off','Name','VisualFluo','NumberTitle','off','Units','pixels',...
                        'Position',[190,15,1200,height],'Resize','on');
                    
                    movegui(this.guiFigure, 'center');
+                   
+                   this.guiFigure.Visible = 'on';
                     
                 end
                 
@@ -1092,26 +1094,30 @@ classdef VisualFluo < handle
                     expression = '[12]\d\d\d[01][012][0123]\d_(\d+)_mca';
                 end
                 
-                dirStruct = dir(scanPath);
-                [sortedNames,sortedIndex] = sortrows({dirStruct.name}');
-                
-                m = 0; %number of scan names
-                for n = 1:length(sortedIndex)
-                    if ~isempty(regexp(sortedNames{n},expression,'once'))
-                        if ~isempty(regexp(sortedNames{n},specFile,'once'))
-                            m = m+1;
-                            sortedNames{m} = sortedNames{n};
+                try
+                    dirStruct = dir(scanPath);
+                    [sortedNames, sortedIndex] = sortrows({dirStruct.name}');
+                    
+                    m = 0; %number of scan names
+                    for n = 1:length(sortedIndex)
+                        if ~isempty(regexp(sortedNames{n},expression,'once'))
+                            if ~isempty(regexp(sortedNames{n},specFile,'once'))
+                                m = m+1;
+                                sortedNames{m} = sortedNames{n};
+                            end
                         end
                     end
-                end
-                
-                if m > 1
-                    scanFiles = sortedNames(1:m);
-                    scanNumbers = getScanNumbers(scanFiles);
-                    [~,I] = sort(scanNumbers);
-                    scanFiles = scanFiles(I);
-                else
-                    scanFiles = {};
+                    
+                    if m > 1
+                        scanFiles = sortedNames(1:m);
+                        scanNumbers = getScanNumbers(scanFiles);
+                        [~,I] = sort(scanNumbers);
+                        scanFiles = scanFiles(I);
+                    else
+                        scanFiles = {};
+                    end
+                catch
+                    
                 end
                 
             end
