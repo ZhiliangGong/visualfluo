@@ -58,6 +58,8 @@ classdef VisualFluoData < handle
         signal %integrated signal
         signalError
         
+        comment
+        
     end
    
     methods

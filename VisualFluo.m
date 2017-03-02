@@ -171,7 +171,7 @@ classdef VisualFluo < handle
                     this.gui.basicInfoTable = uitable(this.gui.rightPanel,'Data', basicInfoData,...
                         'ColumnFormat', columnFormat,'ColumnEditable', true, 'Units', 'normalized',...
                         'ColumnWidth',columnWidth,'ColumnName', colName, 'RowName',rowName,'RowStriping','off',...
-                        'Position', [.03 .82 .9 .1]);
+                        'Position', [.03 .82 .935 .1]);
                     
                 end
                 
@@ -190,20 +190,29 @@ classdef VisualFluo < handle
                     this.gui.calibrationTable = uitable(this.gui.rightPanel, 'Data', tableData, ...
                         'ColumnName', colName, 'RowName', rowName, 'RowStriping', 'off', ...
                         'ColumnFormat', columnFormat, 'ColumnWidth', columnWidth, 'ColumnEditable', true, ...
-                        'Units', 'normalized', 'Position', [0.03 0.67 0.9 0.12]);
+                        'Units', 'normalized', 'Position', [0.03 0.67 0.935 0.12]);
                     
                 end
                 
                 function createOutputRegion()
                     
-                    this.gui.systemLogText = uicontrol(this.gui.rightPanel, 'Style', 'text',...
-                        'String', 'Sysem Log', 'Units', 'normalized', 'Position', [0.03 0.645 0.9 0.02],...
-                        'HorizontalAlignment', 'left');
-                    
                     rightPanel = this.gui.rightPanel;
                     
-                    this.gui.output = uicontrol(rightPanel,'Style','edit','Max',2,'HorizontalAlignment','left','Units','normalized',...
-                        'Position',[0.03 0.07 0.935 0.57]);
+                    this.gui.commentText = uicontrol(rightPanel, 'Style', 'text', 'String', 'Comment', ...
+                        'Units', 'normalized', 'Position', [0.03 0.645 0.9 0.02], 'HorizontalAlignment', 'left');
+                    
+                    this.gui.comment = uicontrol(rightPanel, 'Style', 'edit', 'String', '', 'Max', 2, ...
+                        'Units', 'normalized', 'Position', [0.03 0.595 0.935 0.05], 'HorizontalAlignment', 'left');
+                    
+                    this.gui.saveComment = uicontrol(rightPanel, 'Style', 'pushbutton', 'String', 'Save', ...
+                        'Units', 'normalized', 'Position', [0.86 0.565 0.12 0.03]);
+                    
+                    this.gui.systemLogText = uicontrol(rightPanel, 'Style', 'text',...
+                        'String', 'Sysem Log', 'Units', 'normalized', 'Position', [0.03 0.555 0.2 0.02],...
+                        'HorizontalAlignment', 'left');
+                    
+                    this.gui.output = uicontrol(rightPanel, 'Style', 'edit', 'Max', 2, 'HorizontalAlignment', 'left','Units','normalized',...
+                        'Position',[0.03 0.07 0.935 0.48]);
                     
                     this.gui.clearOutputButton = uicontrol(rightPanel,'Style','pushbutton','String','Clear Output','Units','normalized',...
                         'Position',[0.022 0.04 0.21 0.03]);
@@ -254,9 +263,10 @@ classdef VisualFluo < handle
                 this.gui.background.Callback = @(varargin) this.control('background');
                 this.gui.integrate.Callback = @(varargin) this.control('integrate');
                 
-                % tables
+                % tables and comment
                 this.gui.basicInfoTable.CellEditCallback = @(source, eventdata) this.control('basic-info', eventdata);
                 this.gui.calibrationTable.CellEditCallback = @(source, eventdata) this.control('calibration', eventdata);
+                this.gui.saveComment.Callback = @(varargin) this.control('comment');
                 
                 % buttons below the output
                 this.gui.clearOutputButton.Callback = @(varargin) this.control('clear-output');
@@ -309,6 +319,7 @@ classdef VisualFluo < handle
                             this.gui.qzList.String = getQzList();
                             displayTableInfo();
                             displayScanInfo();
+                            displayComment();
                             upperPlot();
                             plotParameter();
                         otherwise
@@ -321,6 +332,7 @@ classdef VisualFluo < handle
                             this.gui.qzList.String = getQzList();
                             displayTableInfo();
                             displayScanInfo();
+                            displayComment();
                             upperPlot();
                             plotParameter();
                         case 'qz'
@@ -346,6 +358,7 @@ classdef VisualFluo < handle
                         case 'scan'
                             displayTableInfo();
                             displayScanInfo();
+                            displayComment();
                             upperPlot();
                         case 'integrate'
                             upperPlot();
@@ -717,6 +730,10 @@ classdef VisualFluo < handle
                 output.String = outputText;
             end
             
+            function displayComment()
+                this.gui.comment.String = this.data{this.gui.scanList.Value(1)}.comment;
+            end
+            
         end
         
         function control(this, trigger, varargin)
@@ -731,6 +748,14 @@ classdef VisualFluo < handle
                             if loadDataAt(pwd, specFile)
                                 getLineSpecAndLegendFirstTime();
                                 this.view(state, trigger);
+                            end
+                        case 'load'
+                            [specFile, specFilePath] = uigetfile('*', 'Select the spec file');
+                            if specFile ~= 0
+                               if loadDataAt(specFile, specFilePath)
+                                   getLineSpecAndLegendFirstTime();
+                                   this.view(state, trigger);
+                               end
                             end
                         otherwise
                             warning(['case not found for view, with state = ', state, ' and trigger = ', trigger]);
@@ -764,6 +789,8 @@ classdef VisualFluo < handle
                             if updateViewNeeded
                                 this.view(state, trigger);
                             end
+                        case 'comment'
+                            saveComment();
                         case 'save-output'
                             saveOutputText();
                         case 'save-figure-1'
@@ -811,6 +838,8 @@ classdef VisualFluo < handle
                             if updateViewNeeded
                                 this.view(state, trigger);
                             end
+                        case 'comment'
+                            saveComment();
                         case 'save-output'
                             saveOutputText();
                         case 'save-figure-1'
@@ -1009,6 +1038,14 @@ classdef VisualFluo < handle
                 
             end
             
+            function saveComment()
+                
+                this.data{this.gui.scanList.Value(1)}.comment = this.gui.comment.String;
+                message = ['Comment saved for ', this.gui.scanList.String{this.gui.scanList.Value(1)}];
+                prependOutput(message);
+                
+            end
+            
             function exportSelectedData()
                 
                 x = this.data;
@@ -1084,31 +1121,24 @@ classdef VisualFluo < handle
             end
             
             function scanFiles = getScanFilesAt(scanPath, specFile)
-                %If no scan files found, return an empty cell array
-                %returned scan files would be sorted
                 
-                % this file stores the format of spec file and scan files
-                try
-                    expression = getExpressionOf('scan');
-                catch
-                    expression = '[12]\d\d\d[01][012][0123]\d_(\d+)_mca';
-                end
+                expression = '[12]\d\d\d[01][012][0123]\d_(\d+)_mca';
                 
                 try
                     dirStruct = dir(scanPath);
                     [sortedNames, sortedIndex] = sortrows({dirStruct.name}');
                     
-                    m = 0; %number of scan names
-                    for n = 1:length(sortedIndex)
-                        if ~isempty(regexp(sortedNames{n},expression,'once'))
-                            if ~isempty(regexp(sortedNames{n},specFile,'once'))
-                                m = m+1;
+                    m = 0; % number of scan names
+                    for n = 1 : length(sortedIndex)
+                        if ~isempty(regexp(sortedNames{n}, expression, 'once'))
+                            if ~isempty(regexp(sortedNames{n}, specFile, 'once'))
+                                m = m + 1;
                                 sortedNames{m} = sortedNames{n};
                             end
                         end
                     end
                     
-                    if m > 1
+                    if m >= 1
                         scanFiles = sortedNames(1:m);
                         scanNumbers = getScanNumbers(scanFiles);
                         [~,I] = sort(scanNumbers);

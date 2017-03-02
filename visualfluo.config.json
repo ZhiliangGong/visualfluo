@@ -3,5 +3,7 @@
   "plot1Choices": ["Counts","Counts with error","Intensity","Intensity with error"],
   "plot2Choices": ["Influx","Count time","Live ratio","Absorber","Footprint","Slit height","Slit width","Beam position"],
   "colors": "kbrgcmy",
-  "symbols": "o^vsd><ph+*x."
+  "symbols": "o^vsd><ph+*x.",
+  "specFormat": "[12]\d\d\d[01][012][0123]\d",
+  "scanFormat": "[12]\d\d\d[01][012][0123]\d_(\d+)_mca"
 }
